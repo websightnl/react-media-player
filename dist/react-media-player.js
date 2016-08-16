@@ -331,7 +331,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        autoPlay: autoPlay,
 	        onReady: this._handleOnReady,
 	        onEnded: this._handleOnEnded
-	      }, this._mediaEvents)));
+	      }, this._mediaEvents)), vendor);
 	    }
 	  }, {
 	    key: '_mediaEvents',
@@ -514,7 +514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Youtube)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._isMounted = false, _this._progressId = null, _this._timeUpdateId = null, _this._handleProgress = function () {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Youtube)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._videoId = (0, _getYoutubeId2.default)(_this.props.src), _this._lastVideoId = _this._videoId, _this._isReady = false, _this._isMounted = false, _this._progressId = null, _this._timeUpdateId = null, _this._handleProgress = function () {
 	      if (!_this._isMounted) return;
 
 	      var progress = _this._player.getVideoLoadedFraction() || 0;
@@ -545,11 +545,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
 	      if (nextProps.src !== this.props.src) {
-	        var videoId = (0, _getYoutubeId2.default)(nextProps.src);
-	        if (nextProps.autoPlay) {
-	          this._player.loadVideoById(videoId);
-	        } else {
-	          this._player.cueVideoById(videoId);
+	        this._lastVideoId = this._videoId;
+	        this._videoId = (0, _getYoutubeId2.default)(nextProps.src);
+
+	        if (this._isReady) {
+	          if (nextProps.autoPlay) {
+	            this._player.loadVideoById(this._videoId);
+	          } else {
+	            this._player.cueVideoById(this._videoId);
+	          }
 	        }
 	      }
 	    }
@@ -573,10 +577,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_createPlayer',
 	    value: function _createPlayer() {
-	      var videoId = (0, _getYoutubeId2.default)(this.props.src);
-
 	      this._player = new YT.Player(this._node, {
-	        videoId: videoId,
+	        videoId: this._videoId,
 	        events: this._events(),
 	        playerVars: {
 	          controls: 0,
@@ -592,6 +594,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return {
 	        onReady: function onReady() {
+	          // if id changed before the player was ready we need to load the new one
+	          if (_this2._videoId !== _this2._lastVideoId) {
+	            _this2._player.loadVideoById(_this2._videoId);
+	          }
+	          _this2._isReady = true;
 	          _this2.props.onDuration(_this2._player.getDuration());
 	          _this2.props.onReady();
 	        },
@@ -862,7 +869,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Vimeo)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._vimeoId = (0, _getVimeoId2.default)(_this.props.src), _this._origin = '*', _this._onMessage = function (e) {
-	      var data = undefined;
+	      var data = void 0;
 
 	      // allow messages from the Vimeo player only
 	      if (!/^https?:\/\/player.vimeo.com/.test(e.origin)) {
@@ -1065,11 +1072,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(HTML5)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._handleCanPlay = function () {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(HTML5)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._isMounted = false, _this._timeUpdateId = null, _this._handleCanPlay = function () {
 	      _this.props.onReady();
 	    }, _this._handlePlay = function () {
+	      _this._timeUpdateId = requestAnimationFrame(_this._handleTimeUpdate);
 	      _this.props.onPlay(true);
 	    }, _this._handlePause = function () {
+	      cancelAnimationFrame(_this._timeUpdateId);
+	      _this._timeUpdateId = null;
+
 	      _this.props.onPause(false);
 	    }, _this._handleEnded = function () {
 	      _this.props.onEnded(false);
@@ -1091,14 +1102,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var duration = _ref2.target.duration;
 
 	      _this.props.onDuration(duration);
-	    }, _this._handleTimeUpdate = function (_ref3) {
-	      var currentTime = _ref3.target.currentTime;
+	    }, _this._handleTimeUpdate = function () {
+	      if (!_this._isMounted) return;
 
-	      _this.props.onTimeUpdate(currentTime);
-	    }, _this._handleVolumeChange = function (_ref4) {
-	      var _ref4$target = _ref4.target;
-	      var volume = _ref4$target.volume;
-	      var muted = _ref4$target.muted;
+	      _this.props.onTimeUpdate(_this._player.currentTime || 0);
+
+	      if (_this._timeUpdateId) {
+	        _this._timeUpdateId = requestAnimationFrame(_this._handleTimeUpdate);
+	      }
+	    }, _this._handleVolumeChange = function (_ref3) {
+	      var _ref3$target = _ref3.target;
+	      var volume = _ref3$target.volume;
+	      var muted = _ref3$target.muted;
 
 	      _this.props.onMute(muted);
 	      _this.props.onVolumeChange(volume);
@@ -1106,6 +1121,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  _createClass(HTML5, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this._isMounted = true;
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this._isMounted = false;
+	    }
+	  }, {
 	    key: 'play',
 	    value: function play() {
 	      this._player.play();
@@ -1153,7 +1178,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        onError: this._handleError,
 	        onProgress: this._handleProgress,
 	        onLoadedMetadata: this._handleDuration,
-	        onTimeUpdate: this._handleTimeUpdate,
 	        onVolumeChange: this._handleVolumeChange
 	      });
 	    }
@@ -1268,8 +1292,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _react2.default.createElement(
 	          _Media2.default,
 	          this.props,
-	          function (Player) {
-	            return _react2.default.createElement(MediaPlayer, _extends({}, _this2.props, { Player: Player }));
+	          function (Player, vendor) {
+	            return _react2.default.createElement(MediaPlayer, _extends({}, _this2.props, { Player: Player, vendor: vendor }));
 	          }
 	        );
 	      }
