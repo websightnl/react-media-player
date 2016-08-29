@@ -164,7 +164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(Media, _Component);
 
 	  function Media() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -174,7 +174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Media)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Media.__proto__ || Object.getPrototypeOf(Media)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      currentTime: 0,
 	      progress: 0,
 	      duration: 0.1,
@@ -259,8 +259,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        document[_exitFullscreen2.default]();
 	      }
-	    }, _this._handleFullscreenChange = function (_ref) {
-	      var target = _ref.target;
+	    }, _this._handleFullscreenChange = function (_ref2) {
+	      var target = _ref2.target;
 
 	      if (target === _reactDom2.default.findDOMNode(_this._player)) {
 	        _this.setState({ isFullscreen: !_this.state.isFullscreen });
@@ -504,7 +504,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(Youtube, _Component);
 
 	  function Youtube() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -514,7 +514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Youtube)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._videoId = (0, _getYoutubeId2.default)(_this.props.src), _this._lastVideoId = _this._videoId, _this._isReady = false, _this._isMounted = false, _this._progressId = null, _this._timeUpdateId = null, _this._handleProgress = function () {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Youtube.__proto__ || Object.getPrototypeOf(Youtube)).call.apply(_ref, [this].concat(args))), _this), _this._videoId = (0, _getYoutubeId2.default)(_this.props.src), _this._lastVideoId = _this._videoId, _this._isReady = false, _this._isMounted = false, _this._progressId = null, _this._timeUpdateId = null, _this._handleProgress = function () {
 	      if (!_this._isMounted) return;
 
 	      var progress = _this._player.getVideoLoadedFraction() || 0;
@@ -602,8 +602,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          _this2.props.onDuration(_this2._player.getDuration());
 	          _this2.props.onReady();
 	        },
-	        onStateChange: function onStateChange(_ref) {
-	          var data = _ref.data;
+	        onStateChange: function onStateChange(_ref2) {
+	          var data = _ref2.data;
 	          var _window$YT$PlayerStat = window.YT.PlayerState;
 	          var PLAYING = _window$YT$PlayerStat.PLAYING;
 	          var PAUSED = _window$YT$PlayerStat.PAUSED;
@@ -858,7 +858,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(Vimeo, _Component);
 
 	  function Vimeo() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -868,7 +868,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Vimeo)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._vimeoId = (0, _getVimeoId2.default)(_this.props.src), _this._origin = '*', _this._onMessage = function (e) {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Vimeo.__proto__ || Object.getPrototypeOf(Vimeo)).call.apply(_ref, [this].concat(args))), _this), _this._vimeoId = (0, _getVimeoId2.default)(_this.props.src), _this._origin = '*', _this._onMessage = function (e) {
 	      var data = void 0;
 
 	      // allow messages from the Vimeo player only
@@ -1062,7 +1062,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(HTML5, _Component);
 
 	  function HTML5() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -1072,10 +1072,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(HTML5)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._isMounted = false, _this._timeUpdateId = null, _this._handleCanPlay = function () {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = HTML5.__proto__ || Object.getPrototypeOf(HTML5)).call.apply(_ref, [this].concat(args))), _this), _this._isMounted = false, _this._timeUpdateId = null, _this._handleCanPlay = function () {
 	      _this.props.onReady();
 	    }, _this._handlePlay = function () {
-	      _this._timeUpdateId = requestAnimationFrame(_this._handleTimeUpdate);
+	      if (_this._timeUpdateId !== null) {
+	        _this._timeUpdateId = requestAnimationFrame(_this._handleTimeUpdate);
+	      }
 	      _this.props.onPlay(true);
 	    }, _this._handlePause = function () {
 	      cancelAnimationFrame(_this._timeUpdateId);
@@ -1086,10 +1088,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      _this.props.onEnded(false);
 	    }, _this._handleError = function (e) {
 	      _this.props.onError(e);
-	    }, _this._handleProgress = function (_ref) {
-	      var _ref$target = _ref.target;
-	      var buffered = _ref$target.buffered;
-	      var duration = _ref$target.duration;
+	    }, _this._handleProgress = function (_ref2) {
+	      var _ref2$target = _ref2.target;
+	      var buffered = _ref2$target.buffered;
+	      var duration = _ref2$target.duration;
 
 	      var progress = 0;
 
@@ -1098,8 +1100,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 
 	      _this.props.onProgress(isNaN(progress) ? 0 : progress);
-	    }, _this._handleDuration = function (_ref2) {
-	      var duration = _ref2.target.duration;
+	    }, _this._handleDuration = function (_ref3) {
+	      var duration = _ref3.target.duration;
 
 	      _this.props.onDuration(duration);
 	    }, _this._handleTimeUpdate = function () {
@@ -1110,10 +1112,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (_this._timeUpdateId) {
 	        _this._timeUpdateId = requestAnimationFrame(_this._handleTimeUpdate);
 	      }
-	    }, _this._handleVolumeChange = function (_ref3) {
-	      var _ref3$target = _ref3.target;
-	      var volume = _ref3$target.volume;
-	      var muted = _ref3$target.muted;
+	    }, _this._handleVolumeChange = function (_ref4) {
+	      var _ref4$target = _ref4.target;
+	      var volume = _ref4$target.volume;
+	      var muted = _ref4$target.muted;
 
 	      _this.props.onMute(muted);
 	      _this.props.onVolumeChange(volume);
@@ -1281,7 +1283,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function _class() {
 	      _classCallCheck(this, _class);
 
-	      return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+	      return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
 	    }
 
 	    _createClass(_class, [{
@@ -1349,7 +1351,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function _class() {
 	      _classCallCheck(this, _class);
 
-	      return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+	      return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
 	    }
 
 	    _createClass(_class, [{
@@ -1404,7 +1406,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _inherits(_class, _Component);
 
 	    function _class() {
-	      var _Object$getPrototypeO;
+	      var _ref;
 
 	      var _temp, _this, _ret;
 
@@ -1414,7 +1416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        args[_key2] = arguments[_key2];
 	      }
 
-	      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_class)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._handlekeyboardControls = function (e) {
+	      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this._handlekeyboardControls = function (e) {
 	        var _this$props$media = _this.props.media;
 	        var playPause = _this$props$media.playPause;
 	        var duration = _this$props$media.duration;
@@ -1615,7 +1617,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(PlayPause, _Component);
 
 	  function PlayPause() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -1625,15 +1627,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(PlayPause)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._handlePlayPause = function () {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PlayPause.__proto__ || Object.getPrototypeOf(PlayPause)).call.apply(_ref, [this].concat(args))), _this), _this._handlePlayPause = function () {
 	      _this.props.media.playPause();
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
 	  _createClass(PlayPause, [{
 	    key: 'shouldComponentUpdate',
-	    value: function shouldComponentUpdate(_ref) {
-	      var media = _ref.media;
+	    value: function shouldComponentUpdate(_ref2) {
+	      var media = _ref2.media;
 
 	      return this.props.media.isPlaying !== media.isPlaying;
 	    }
@@ -1701,7 +1703,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function CurrentTime() {
 	    _classCallCheck(this, CurrentTime);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(CurrentTime).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (CurrentTime.__proto__ || Object.getPrototypeOf(CurrentTime)).apply(this, arguments));
 	  }
 
 	  _createClass(CurrentTime, [{
@@ -1792,7 +1794,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Progress() {
 	    _classCallCheck(this, Progress);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Progress).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Progress.__proto__ || Object.getPrototypeOf(Progress)).apply(this, arguments));
 	  }
 
 	  _createClass(Progress, [{
@@ -1858,7 +1860,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(SeekBar, _Component);
 
 	  function SeekBar() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -1868,11 +1870,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(SeekBar)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._isPlayingOnMouseDown = false, _this._onChangeUsed = false, _this._handleMouseDown = function () {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SeekBar.__proto__ || Object.getPrototypeOf(SeekBar)).call.apply(_ref, [this].concat(args))), _this), _this._isPlayingOnMouseDown = false, _this._onChangeUsed = false, _this._handleMouseDown = function () {
 	      _this._isPlayingOnMouseDown = _this.props.media.isPlaying;
 	      _this.props.media.pause();
-	    }, _this._handleMouseUp = function (_ref) {
-	      var value = _ref.target.value;
+	    }, _this._handleMouseUp = function (_ref2) {
+	      var value = _ref2.target.value;
 
 	      // seek on mouseUp as well because of this bug in <= IE11
 	      // https://github.com/facebook/react/issues/554
@@ -1884,8 +1886,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (_this._isPlayingOnMouseDown) {
 	        _this.props.media.play();
 	      }
-	    }, _this._handleChange = function (_ref2) {
-	      var value = _ref2.target.value;
+	    }, _this._handleChange = function (_ref3) {
+	      var value = _ref3.target.value;
 
 	      _this.props.media.seekTo(+value);
 	      _this._onChangeUsed = true;
@@ -1894,8 +1896,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _createClass(SeekBar, [{
 	    key: 'shouldComponentUpdate',
-	    value: function shouldComponentUpdate(_ref3) {
-	      var media = _ref3.media;
+	    value: function shouldComponentUpdate(_ref4) {
+	      var media = _ref4.media;
 
 	      return this.props.media.currentTime !== media.currentTime || this.props.media.duration !== media.duration;
 	    }
@@ -1968,7 +1970,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Duration() {
 	    _classCallCheck(this, Duration);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Duration).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Duration.__proto__ || Object.getPrototypeOf(Duration)).apply(this, arguments));
 	  }
 
 	  _createClass(Duration, [{
@@ -2031,7 +2033,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(MuteUnmute, _Component);
 
 	  function MuteUnmute() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -2041,15 +2043,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(MuteUnmute)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._handleMuteUnmute = function () {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MuteUnmute.__proto__ || Object.getPrototypeOf(MuteUnmute)).call.apply(_ref, [this].concat(args))), _this), _this._handleMuteUnmute = function () {
 	      _this.props.media.muteUnmute();
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
 	  _createClass(MuteUnmute, [{
 	    key: 'shouldComponentUpdate',
-	    value: function shouldComponentUpdate(_ref) {
-	      var media = _ref.media;
+	    value: function shouldComponentUpdate(_ref2) {
+	      var media = _ref2.media;
 
 	      return this.props.media.isMuted !== media.isMuted;
 	    }
@@ -2113,7 +2115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(Volume, _Component);
 
 	  function Volume() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -2123,16 +2125,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Volume)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._onChangeUsed = false, _this._handleMouseUp = function (_ref) {
-	      var value = _ref.target.value;
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Volume.__proto__ || Object.getPrototypeOf(Volume)).call.apply(_ref, [this].concat(args))), _this), _this._onChangeUsed = false, _this._handleMouseUp = function (_ref2) {
+	      var value = _ref2.target.value;
 
 	      // set volume on mouseUp as well because of this bug in <= IE11
 	      // https://github.com/facebook/react/issues/554
 	      if (!_this._onChangeUsed) {
 	        _this.props.media.setVolume((+value).toFixed(4));
 	      }
-	    }, _this._handleChange = function (_ref2) {
-	      var value = _ref2.target.value;
+	    }, _this._handleChange = function (_ref3) {
+	      var value = _ref3.target.value;
 
 	      _this.props.media.setVolume((+value).toFixed(4));
 	      _this._onChangeUsed = true;
@@ -2141,8 +2143,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _createClass(Volume, [{
 	    key: 'shouldComponentUpdate',
-	    value: function shouldComponentUpdate(_ref3) {
-	      var media = _ref3.media;
+	    value: function shouldComponentUpdate(_ref4) {
+	      var media = _ref4.media;
 
 	      return this.props.media.volume !== media.volume;
 	    }
@@ -2208,7 +2210,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(Fullscreen, _Component);
 
 	  function Fullscreen() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -2218,15 +2220,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Fullscreen)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._handleFullscreen = function () {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Fullscreen.__proto__ || Object.getPrototypeOf(Fullscreen)).call.apply(_ref, [this].concat(args))), _this), _this._handleFullscreen = function () {
 	      _this.props.media.fullscreen();
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
 	  _createClass(Fullscreen, [{
 	    key: 'shouldComponentUpdate',
-	    value: function shouldComponentUpdate(_ref) {
-	      var media = _ref.media;
+	    value: function shouldComponentUpdate(_ref2) {
+	      var media = _ref2.media;
 
 	      return this.props.media.isFullscreen !== media.isFullscreen;
 	    }
