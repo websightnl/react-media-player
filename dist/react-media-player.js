@@ -1080,7 +1080,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      _this.props.onPlay(true);
 	    }, _this._handlePause = function () {
-	      cancelAnimationFrame(_this._timeUpdateId);
+	      if (_this._timeUpdateId !== null) {
+	        cancelAnimationFrame(_this._timeUpdateId);
+	      }
 	      _this._timeUpdateId = null;
 
 	      _this.props.onPause(false);
